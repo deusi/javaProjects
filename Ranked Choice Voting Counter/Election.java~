@@ -1,0 +1,64 @@
+public class Election{
+// Contains a main method to tabulate the results of an election based
+// on votes stored in text files.
+  
+  public static void main(String args[]) throws Exception{
+    // Read a vote file named on the command line such as
+    // votes-standard.txt.  Creates a Tally and repeatedly eliminate
+    // minimum vote candidates until either a winner is found or an
+    // all-way-tie occurs. Prints the results of each round of vote
+    // calculation.
+    // 
+    // The vote file should be specified on the command line in runs like this:
+    //
+    // $> java Election votes-standard.txt
+    // 
+    // If no, vote file is specified, main() should print a usage
+    // message message:
+    // 
+    // $> java Election
+    // usage: java Election <votes.txt>
+    //
+    // and return immediately.
+    if(args.length == 0){                                       //Checks if the file is empty
+      System.out.println("usage: java Election <votes.txt>");
+      return;
+    }
+    else{
+      String argsValue = args[0];
+      Tally tally = Tally.readTallyFromFile(argsValue);       //All the main values and references to other classes.
+      Vote vote[] = Vote.readVoteFile(argsValue);
+      boolean winOrTie = true;
+      int count = 1;
+      System.out.printf("%s : %d votes read\n",argsValue,Util.countLines(argsValue)-1);
+      
+      while(winOrTie){                                 //Runs the loop with the given values either until someone wins or until there is a tie.      
+        System.out.printf("Round %d : %d candidates %s\n",count,tally.size(),tally.toString());
+        String countAll = tally.countAll(vote);
+        String winner = tally.getWinner();       //Gets winner. If there is no one with more than 50% votes, the value equals to null.
+        System.out.println("Transcript:");
+        System.out.println(countAll);
+        System.out.println(tally.outputString());
+        if(winner != null){                       // Prints the winner if there is one.
+          System.out.printf("WINNER: %s\n",winner);
+          return;
+        }
+        if(tally.allWayTie()){                     //Prints a tie and all the candidates in it.
+          String minCands[] = tally.getMinCandidates();
+          System.out.println("ALL WAY TIE BETWEEN:");
+          for(int i = 0; i<minCands.length;i++){
+            System.out.println(minCands[i]);
+          }
+          return;     
+        }
+        String minCands2[] = tally.getMinCandidates();   //Eliminates the candidates with the lovest scores.
+        System.out.printf("%d minimum vote candidates\n",minCands2.length); 
+        for(int i = 0; i<minCands2.length;i++){
+          tally = tally.eliminate(minCands2[i]);
+          System.out.printf("Eliminating: %s\n", minCands2[i]);
+        }
+        count++;
+      }
+    }
+  }
+}
