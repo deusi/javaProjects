@@ -1,0 +1,29 @@
+  public class SymmetricSeq{
+  public static void main (String [] args){
+  System.out.println("Enter length of sequence (ex: 7): ");
+  int length = TextIO.getInt();
+  int[] array = new int[length];
+  int i;
+  int x;
+  boolean symmetry = true;
+  System.out.printf("Enter %d integers:\n", length);
+  for(i=0; i<array.length; i++){
+    array[i] = TextIO.getInt();
+  }
+  for(x=0;x<array.length;x++){
+    if(array[x]!=array[array.length-(x+1)]){ 
+      symmetry = false;
+      if(x<array.length-(x+1)){
+    System.out.printf("seq[%d] != seq[%d]\n",x, array.length-(x+1));
+      }
+    }
+  }
+    if(symmetry == false){
+      System.out.println("NOT Symmetric");  
+    }
+    else if(symmetry == true){
+      System.out.println("Symmetric");  
+    }
+  
+  }
+}
