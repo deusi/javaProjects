@@ -1,0 +1,50 @@
+public class B2D{
+  
+  
+  
+  public static int binary2Decimal(String binary){
+    int sum = 0;
+    int twoPow = 1;
+    int i;
+    boolean fail = false;
+    for (i=binary.length()-1; i>=0; i--){
+      if(binary.charAt(i)=='1'){
+        sum = sum + twoPow;
+        twoPow = twoPow*2;
+      }
+      else if(binary.charAt(i)=='0'){
+        sum = sum;
+        twoPow = twoPow*2; 
+      }
+      else{
+        fail = true;
+      }
+    }
+    if(fail == true){
+      sum = -1;
+    }
+    return sum;
+  }
+  
+  
+  
+  public static void main (String [] args){
+    int i;
+    System.out.println("Enter a binary number: (ex: 011010101)");
+    String binary = TextIO.getWord();
+    int finale = binary2Decimal(binary);
+    if(finale > 0){
+      System.out.printf("Decimal value: %d\n",finale);
+    }
+    else if (finale < 0){
+      System.out.println("Failed to convert");
+      for (i=binary.length()-1; i>=0; i--){
+        if ((binary.charAt(binary.length()-1-i)!='0')&&(binary.charAt(binary.length()-1-i)!='1')){
+          System.out.printf("invalid character '%c'\n", binary.charAt(binary.length()-1-i));
+        }
+      }
+    }
+  }
+  
+  
+}
